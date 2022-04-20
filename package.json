@@ -12,7 +12,8 @@
   "license": "ISC",
   "dependencies": {
     "echarts": "^5.3.2",
-    "echarts-gl": "^2.0.9"
+    "echarts-gl": "^2.0.9",
+    "jquery": "^3.6.0"
   },
   "devDependencies": {
     "webpack": "^5.72.0",

@@ -1,12 +1,24 @@
+import * as echarts from 'echarts';
+import 'echarts-gl';
+import $ from "jquery";
+
+
+var ROOT_PATH = 'https://echarts.apache.org/examples';
+
+var chartDom = document.getElementById('main');
+var myChart = echarts.init(chartDom);
+var option;
+
 $.getScript(
   'https://cdn.jsdelivr.net/npm/simplex-noise@2.4.0/simplex-noise.js'
 ).done(function () {
   var noise = new SimplexNoise(Math.random);
   function generateData(theta, min, max) {
     var data = [];
-    for (var i = 0; i <= 20; i++) {
-      for (var j = 0; j <= 20; j++) {
-        var value = noise.noise2D(i / 20, j / 20);
+    var SIZE = 100;
+    for (var i = 0; i <= SIZE; i++) {
+      for (var j = 0; j <= SIZE; j++) {
+        var value = noise.noise2D((i / SIZE) * 2, (j / SIZE) * 2);
         valMax = Math.max(valMax, value);
         valMin = Math.min(valMin, value);
         data.push([i, j, value * 2 + 4]);
@@ -32,20 +44,13 @@ $.getScript(
         min: 0
       },
       grid3D: {
-        environment: '#000',
+        environment: '#fff',
         axisPointer: {
           show: false
         },
-        postEffect: {
-          enable: true,
-          SSAO: {
-            enable: true,
-            radius: 5
-          }
-        },
         light: {
           main: {
-            intensity: 3
+            intensity: 5
           },
           ambientCubemap: {
             texture: ROOT_PATH + '/data-gl/asset/pisa.hdr',
@@ -59,30 +64,22 @@ $.getScript(
         {
           type: 'bar3D',
           data: data,
-          barSize: 4,
-          bevelSize: 0.4,
-          bevelSmoothness: 4,
+          barSize: 1,
           shading: 'realistic',
+          wireframe: {
+            show: true
+          },
           realisticMaterial: {
-            roughness: 0.3,
+            roughness: 1,
             metalness: 1
           },
-          label: {
-            textStyle: {
-              fontSize: 16,
-              borderWidth: 1
-            }
-          },
           itemStyle: {
-            color: '#ccc'
-          },
-          emphasis: {
-            label: {
-              show: false
-            }
+            color: '#afaf00'
           }
         }
       ]
     })
   );
 });
+
+option && myChart.setOption(option);
